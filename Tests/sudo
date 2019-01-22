@@ -1,0 +1,27 @@
+
+number_of_ants
+the_rooms
+the_links
+
+store data
+	what data?
+		#ants -
+		rooms -  coordinates purely for visualization?
+		links -   
+		
+		
+find minimum distance from start to end.
+
+find fastest x number of paths (no overlapping rooms), x = # of starting points.
+
+if multiple starts:
+
+find lowest common factor? = min bottleneck?
+
+enter - recursion.
+
+if multiple exits:
+
+create linked list to depict model ?
+
+read input, write visiualation
