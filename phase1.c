@@ -6,7 +6,7 @@
 /*   By: sechang <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/02 13:33:55 by sechang           #+#    #+#             */
-/*   Updated: 2019/03/15 21:41:46 by sechang          ###   ########.fr       */
+/*   Updated: 2019/03/15 22:56:12 by sechang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,16 @@ static int	initb(t_rooms *tmp)
 	return (1);
 }
 
+static void	commands_comments(t_lemin *input, char *line)
+{
+	if (!(ft_strcmp(line, "##start")))
+		input->startend = 1;
+	else if (!(ft_strcmp(line, "##end")))
+		input->startend = 2;
+	else
+		ft_printf("%s\n", line);
+}
+
 int			rooms(t_lemin *input, int k, char *line)
 {
 	t_rooms *tmp;
@@ -74,12 +84,7 @@ int			rooms(t_lemin *input, int k, char *line)
 	if (k <= 0 || (!(tmp = malloc(sizeof(t_rooms)))) || !initb(tmp))
 		return (-1);
 	else if (line[0] == '#')
-	{
-		if (!(ft_strcmp(line, "##start")))
-			input->startend = 1;
-		else if (!(ft_strcmp(line, "##end")))
-			input->startend = 2;
-	}
+		commands_comments(input, line);
 	else
 	{
 		if ((input->ro = (lm_strsplit(line, ' ', 3))))
