@@ -6,7 +6,7 @@
 /*   By: sechang <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/02 13:43:00 by sechang           #+#    #+#             */
-/*   Updated: 2019/03/15 21:33:13 by sechang          ###   ########.fr       */
+/*   Updated: 2019/03/15 22:32:56 by sechang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,7 @@ static int	gogo_ants2(t_lemin *input)
 	t_rooms		*rr_tmp;
 	t_rooms		*close_tmp;
 
-	if (input->usage != 't')
-		ft_printf("\n");
+	ft_printf("\n");
 	input->antnum = 1 + input->ants_out;
 	r_tmp = input->anthead;
 	input->prevroom = NULL;

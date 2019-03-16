@@ -6,7 +6,7 @@
 /*   By: sechang <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/02 16:01:56 by sechang           #+#    #+#             */
-/*   Updated: 2019/03/15 21:12:14 by sechang          ###   ########.fr       */
+/*   Updated: 2019/03/15 22:24:25 by sechang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,7 @@ void		close_end(t_lemin *input, t_rooms *curr)
 			input->prevroom->next = curr->next;
 	}
 	input->ants_out++;
-	if (input->usage != 's')
-		ft_printf("L%d-%s ", input->antnum, input->end->name);
+	ft_printf("L%d-%s ", input->antnum, input->end->name);
 }
 
 void		start_path_check(t_lemin *input, t_rooms *curr)
@@ -125,7 +124,7 @@ t_rooms		*closest_node(t_lemin *input, t_rooms *curr, int hstate, int tstate)
 			linkem(input, input->closest->next, curr, input->closest);
 		else
 			linkem(input, input->closest->next, curr, input->closest);
-		if ((!(input->thkey = 0)) && input->usage != 's')
+		if ((!(input->thkey = 0)))
 			ft_printf("L%d-%s ", input->antnum, input->closest->name);
 		input->antnum++;
 	}
