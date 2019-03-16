@@ -1,50 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lm_strsplit.c                                      :+:      :+:    :+:   */
+/*   ft_strsplit.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sechang <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/01 20:28:24 by sechang           #+#    #+#             */
-/*   Updated: 2019/03/15 21:34:51 by sechang          ###   ########.fr       */
+/*   Created: 2018/07/17 20:04:22 by sechang           #+#    #+#             */
+/*   Updated: 2018/07/22 17:21:09 by sechang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lem_in.h"
+#include "libft.h"
 
-char			**lm_getwords(char const *s, char c, int numwords)
+char			**ft_strsplit(char const *s, char c)
 {
-	int			wordcount;
-	char		**newarr;
-
-	wordcount = 0;
-	while (*s)
-	{
-		if (((*s != c) && (*(s + 1) == c)) || ((*s != c) && (*(s + 1) == '\0')))
-			wordcount++;
-		s++;
-	}
-	if (wordcount != numwords)
-		return (NULL);
-	if (!(newarr = (char **)malloc(sizeof(char *) * (wordcount + 1))))
-		return (NULL);
-	*(newarr + wordcount) = NULL;
-	return (newarr);
-}
-
-char			**lm_strsplit(char const *s, char c, int numwords)
-{
-	char		**arr_split;
-	int			wordstart;
-	int			k;
-	int			i;
+	char	**arr_split;
+	int		wordstart;
+	int		k;
+	int		i;
 
 	if (!s)
 		return (NULL);
 	k = 0;
 	i = 0;
 	wordstart = -1;
-	if (!(arr_split = lm_getwords(s, c, numwords)))
+	if (!(arr_split = ft_getwords(s, c)))
 		return (NULL);
 	while (s[i])
 	{
