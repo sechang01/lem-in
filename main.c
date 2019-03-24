@@ -6,12 +6,26 @@
 /*   By: sechang <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/30 13:09:44 by sechang           #+#    #+#             */
-/*   Updated: 2019/03/15 21:40:32 by sechang          ###   ########.fr       */
+/*   Updated: 2019/03/24 01:17:44 by sechang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "hashix.h"
 #include "lem_in.h"
+
+static void		init2(t_lemin *input, char *argv)
+{
+	if (argv && (!ft_strcmp(argv, "-t")))
+		input->usage = 't';
+	else if (argv && (!ft_strcmp(argv, "-n")))
+		input->usage = 'n';
+	else if (argv && (!ft_strcmp(argv, "-d")))
+		input->usage = 'd';
+	else if (argv && (!ft_strcmp(argv, "-b")))
+		input->usage = 'b';
+	else if (argv)
+		error_exit(0);
+}
 
 static int		init(t_lemin *input, char *argv)
 {
@@ -27,18 +41,17 @@ static int		init(t_lemin *input, char *argv)
 	input->anthead = NULL;
 	input->anttail = NULL;
 	input->hasht = hash_newtab();
-	input->startpathkey = 1;
+//	input->startpathkey = 1;
 	input->usage = '\0';
-	if (argv && (!ft_strcmp(argv, "-t")))
-		input->usage = 't';
-	else if (argv && (!ft_strcmp(argv, "-n")))
-		input->usage = 'n';
-	else if (argv && (!ft_strcmp(argv, "-d")))
-		input->usage = 'd';
-	else if (argv && (!ft_strcmp(argv, "-b")))
-		input->usage = 'b';
-	else if (argv)
-		error_exit(0);
+//	input->ants_searching = 0;
+	input->best_turn = 0;
+	input->paths_taken = 0;
+//	input->bneck = 0;
+//	input->blocked = 0;
+	input->pathnbr = 0;
+	input->path_dist = 0;
+	input->best_dist = 2147483647;
+	init2(input, argv);
 	return (1);
 }
 
@@ -47,7 +60,7 @@ void			error_exit(int key)
 	if (key == 1)
 		ft_printf("Error\n");
 	else if (key == 2)
-		ft_printf("Valid Path Not Found\n");
+		ft_printf("Error\n");
 	else
 		ft_printf("usage: ./lem-in [-tbnd] < mapfile\
 				\n-t: Display number of turns.\
@@ -70,19 +83,23 @@ int				main(int argc, char **argv)
 	if (!(input = malloc(sizeof(t_lemin) * 1)) || (!(init(input, argv[1]))))
 		error_exit(1);
 	while ((k = get_next_line(0, &line)))
+	{
 		if (g_process[input->g].f(input, k, line) == -1)
 			error_exit(1);
+		free(line);
+	}
 	if (input->g != 2)
 		error_exit(1);
 	input->g++;
 	if (!input->nbrofrooms || !input->start || !input->end ||
 			(!(ft_strcmp(input->start->name, input->end->name))))
 		error_exit(1);
-	while (input->g <= 4)
+	while (input->g <= 5)
 	{
 		if (g_process[input->g].g(input) == -1)
 			error_exit(1);
 		input->g++;
 	}
+	while(1);
 	return (0);
 }

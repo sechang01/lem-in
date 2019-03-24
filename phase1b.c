@@ -6,7 +6,7 @@
 /*   By: sechang <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/02 13:43:10 by sechang           #+#    #+#             */
-/*   Updated: 2019/03/15 22:20:18 by sechang          ###   ########.fr       */
+/*   Updated: 2019/03/24 01:14:40 by sechang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int				linkcheck(t_links *linx, char *dupecheck)
 	tmp = linx;
 	while (tmp)
 	{
-		if (dupecheck == tmp->link)
+		if (!ft_strcmp(dupecheck, tmp->link))
 			return (1);
 		tmp = tmp->next;
 	}
@@ -58,6 +58,8 @@ int				links(t_lemin *input, int k, char *line)
 {
 	if (line && line[0] == '#')
 		return (0);
+	if (input->ro)
+		ft_strsplitdel(&input->ro);
 	if ((input->ro = (lm_strsplit(line, '-', 2))))
 	{
 		links2(input);

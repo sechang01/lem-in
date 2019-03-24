@@ -6,7 +6,7 @@
 /*   By: sechang <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/09 22:22:27 by sechang           #+#    #+#             */
-/*   Updated: 2019/03/15 21:34:22 by sechang          ###   ########.fr       */
+/*   Updated: 2019/03/24 00:31:20 by sechang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ t_hashlst				*hash_lookup(char *key, t_hasharr *arr)
 	return (NULL);
 }
 
-t_hashlst				*hash_install(char *key, void *data, t_hasharr *arr)
+int						hash_install(char *key, void *data, t_hasharr *arr)
 {
 	t_hashlst			*np;
 	unsigned int		hashval;
@@ -53,20 +53,20 @@ t_hashlst				*hash_install(char *key, void *data, t_hasharr *arr)
 	{
 		np = (t_hashlst *)malloc(sizeof(*np));
 		if (np == NULL || (np->key = ft_strdup(key)) == NULL)
-			return (NULL);
+			return (0);
 		hashval = hashix(key);
 		np->next = arr->hashtab[hashval];
 		arr->hashtab[hashval] = np;
 	}
 	else
 	{
-		return (NULL);
+		return (0);
 	}
-	if ((np->data = data) == NULL)
+	if ((np->data = data) == 0)
 	{
-		return (NULL);
+		return (0);
 	}
-	return (np);
+	return (1);
 }
 
 t_hasharr				*hash_newtab(void)

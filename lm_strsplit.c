@@ -6,7 +6,7 @@
 /*   By: sechang <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/01 20:28:24 by sechang           #+#    #+#             */
-/*   Updated: 2019/03/15 21:34:51 by sechang          ###   ########.fr       */
+/*   Updated: 2019/03/24 01:05:10 by sechang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ char			**lm_getwords(char const *s, char c, int numwords)
 		return (NULL);
 	if (!(newarr = (char **)malloc(sizeof(char *) * (wordcount + 1))))
 		return (NULL);
-	*(newarr + wordcount) = NULL;
+//	(newarr + wordcount) = NULL;
 	return (newarr);
 }
 
@@ -57,5 +57,6 @@ char			**lm_strsplit(char const *s, char c, int numwords)
 		}
 		i++;
 	}
+	arr_split[k] = NULL;
 	return (arr_split);
 }

@@ -6,7 +6,7 @@
 /*   By: sechang <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/02 13:33:55 by sechang           #+#    #+#             */
-/*   Updated: 2019/03/15 22:56:12 by sechang          ###   ########.fr       */
+/*   Updated: 2019/03/24 02:00:19 by sechang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,33 @@ int			ants_in(t_lemin *input, int k, char *line)
 		return (-1);
 }
 
+static int	initb(t_rooms *tmp)
+{
+	tmp->name = NULL;
+	tmp->x = '\0';
+	tmp->y = '\0';
+	tmp->linx = NULL;
+//	tmp->crossed = NULL;
+	tmp->dist = '\0';
+	tmp->occupied = '\0';
+	tmp->next = NULL;
+//	tmp->intent = NULL;
+//	tmp->p_me = NULL;
+//	tmp->collision = NULL;
+//	tmp->dist_diff = 0;
+//	tmp->stuck = 0;
+//	tmp->male = 0;
+//	tmp->female = 0;
+//	tmp->begin_path = NULL;
+//	tmp->counter = 0;
+	tmp->pathnbr = 0;
+	tmp->bfs = 0;
+	return (1);
+}
+
 void		split(t_lemin *input, t_rooms *tmp, t_links *lks, char **splitee)
 {
-	tmp->dist = -1;
+	tmp->dist = 999999999;
 	tmp->occupied = 0;
 	if (input->startend == 1 && (ft_printf("##start\n")))
 	{
@@ -41,7 +65,7 @@ void		split(t_lemin *input, t_rooms *tmp, t_links *lks, char **splitee)
 		input->end = tmp;
 	}
 	tmp->name = ft_strdup(splitee[0]);
-	if (ft_strrchr(tmp->name, '-') || ft_strrchr(tmp->name, 'L'))
+	if (ft_strrchr(tmp->name, '-') || ft_strrchr(tmp->name, 'L') || ft_strrchr(tmp->name, '#'))
 		error_exit(1);
 	tmp->x = ft_atoi(splitee[1]);
 	tmp->y = ft_atoi(splitee[2]);
@@ -54,20 +78,10 @@ void		split(t_lemin *input, t_rooms *tmp, t_links *lks, char **splitee)
 	input->nbrofrooms++;
 }
 
-static int	initb(t_rooms *tmp)
-{
-	tmp->name = NULL;
-	tmp->x = '\0';
-	tmp->y = '\0';
-	tmp->linx = NULL;
-	tmp->dist = '\0';
-	tmp->occupied = '\0';
-	tmp->next = NULL;
-	return (1);
-}
-
 static void	commands_comments(t_lemin *input, char *line)
 {
+	if ((ft_strstr(line, "#Here is the number of lines required:")))
+		input->best_turn = ft_atoi(line + 38);
 	if (!(ft_strcmp(line, "##start")))
 		input->startend = 1;
 	else if (!(ft_strcmp(line, "##end")))
@@ -81,16 +95,19 @@ int			rooms(t_lemin *input, int k, char *line)
 	t_rooms *tmp;
 	t_links *lks;
 
-	if (k <= 0 || (!(tmp = malloc(sizeof(t_rooms)))) || !initb(tmp))
+	if (k <= 0)
 		return (-1);
-	else if (line[0] == '#')
+	if (line[0] == '#')
 		commands_comments(input, line);
 	else
 	{
 		if ((input->ro = (lm_strsplit(line, ' ', 3))))
 		{
+			if ((!(tmp = malloc(sizeof(t_rooms)))) || !initb(tmp))
+				error_exit(1);
 			split(input, tmp, lks, input->ro);
 			input->startend = 0;
+			ft_strsplitdel(&input->ro);
 		}
 		else if (ft_strrchr(line, '-') && (input->g++))
 			g_process[input->g].f(input, k, line);

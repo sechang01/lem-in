@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lemin.h                                            :+:      :+:    :+:   */
+/*   lem_in.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sechang <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/29 00:28:23 by sechang           #+#    #+#             */
-/*   Updated: 2019/03/15 21:45:23 by sechang          ###   ########.fr       */
+/*   Updated: 2019/03/24 00:03:22 by sechang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 
 typedef struct		s_links
 {
+//	int				crossed;
 	char			*link;
 	struct s_links	*next;
 }					t_links;
@@ -32,9 +33,33 @@ typedef struct		s_rooms
 	t_links			*linx;
 	int				dist;
 	int				occupied;
+
+//	struct s_rooms	*intent; // del
+//	struct s_rooms	*p_me;	// del
+
+//	int				counter;
+//	t_links			*crossed;
+//	struct s_rooms	*collision;
+//	int				dist_diff;
+//	int				stuck;
+//	struct s_rooms *begin_path;
+
+//	int				male;
+//	int				female;
+	
+	int				pathnbr;
+	int				bfs;
+
 	struct s_rooms	*next;
 }					t_rooms;
-
+/*
+typedef struct		s_turns
+{
+	int				turn;
+	struct s_rooms	*collision;
+	struct s_turns	*next;
+}					t_turns;
+*/
 typedef struct		s_lemin
 {
 	int				g;
@@ -44,25 +69,39 @@ typedef struct		s_lemin
 	int				antnum;
 	int				ants_in;
 	int				ants_out;
+//	int				in_cpy;
+//	int				out_cpy;
+	int				ants_searching;
 	int				startend;
 	char			**ro;
 	t_rooms			*start;
 	t_rooms			*end;
-	t_rooms			*lstcopy;
-	t_rooms			*i_tmp;
+//	t_rooms			*lstcopy;
+//	t_rooms			*i_tmp;
 	t_rooms			*roomhead;
 	t_rooms			*prevroom;
 	t_rooms			*anthead;
 	t_rooms			*anttail;
+//	t_rooms			*tmp;
 	t_hasharr		*hasht;
 	t_rooms			*closest;
+//	t_rooms			*pme_lst;
 	int				turn;
-	int				in_paths;
-	int				out_paths;
-	int				entrances;
-	int				startpathkey;
+//	int				in_paths;
+//	int				out_paths;
+//	int				entrances;
+//	int				startpathkey;
 	int				thkey;
 	char			usage;
+//	int				bneck;
+//	int				tries;
+	int				paths_taken;
+	int				best_turn;
+//	int				blocked;
+	int				pathnbr;
+	int				path_dist;
+	int				best_dist;
+	int				startnbr;
 }					t_lemin;
 
 typedef struct		s_process
@@ -92,8 +131,14 @@ void				test_output(t_lemin *input, t_rooms *head);
 int					array_o_ants(t_lemin *input);
 void				error_exit(int key);
 void				start_path_check(t_lemin *input, t_rooms *curr);
-void				usage_flags(t_lemin *input);
-void				print_usage(t_lemin *input);
+void				usage_flags(t_lemin *input, t_rooms *r);
+void				print_usage(t_lemin *input, t_rooms *r);
+t_links				*lm_mergesort(t_links **headref, t_lemin *input);
+t_links				*sortedmerge(t_links *a, t_links *b, t_lemin *input);
+void				frontbacksplit(t_links *source, t_links **frontref, t_links **backref);
+void				sort_neighbors_dist(t_lemin *input);
+int					gogo_ants_start(t_lemin	*input);
+int					testf(t_lemin *input);
 
 static t_process	g_process[] = \
 {
@@ -101,7 +146,8 @@ static t_process	g_process[] = \
 	{1, &rooms, NULL},
 	{2, &links, NULL},
 	{3, NULL, &room_dist},
-	{4, NULL, &gogo_ants},
+	{4, NULL, &testf},
+	{5, NULL, &gogo_ants_start},
 	{0, 0}
 };
 

@@ -6,7 +6,7 @@
 /*   By: sechang <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/14 20:47:16 by sechang           #+#    #+#             */
-/*   Updated: 2019/03/04 14:52:50 by sechang          ###   ########.fr       */
+/*   Updated: 2019/03/24 01:09:32 by sechang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,5 +91,6 @@ int					ft_isupper(int c);
 int					ft_islower(int c);
 int					ft_iswhitespace(int c);
 char				**ft_getwords(char const *s, char c);
+void				ft_strsplitdel(char ***split);
 
 #endif
