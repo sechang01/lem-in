@@ -6,7 +6,7 @@
 /*   By: sechang <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/02 13:43:10 by sechang           #+#    #+#             */
-/*   Updated: 2019/03/24 01:14:40 by sechang          ###   ########.fr       */
+/*   Updated: 2019/03/24 11:49:18 by sechang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,9 @@ static void		links2(t_lemin *input)
 	if (!(room_one = hash_lookup(input->ro[0], input->hasht)) ||
 			(!(room_two = hash_lookup(input->ro[1], input->hasht))))
 		error_exit(1);
-	if (!(linkcheck(((t_rooms *)room_one->data)->linx,
-					((t_rooms *)room_two->data)->name)))
-	{
+//	if (!(linkcheck(((t_rooms *)room_one->data)->linx,
+//					((t_rooms *)room_two->data)->name)))
+//	{
 		if (!(newlinka = malloc(sizeof(t_links))) ||
 				(!(newlinkb = malloc(sizeof(t_links)))))
 			error_exit(1);
@@ -49,9 +49,9 @@ static void		links2(t_lemin *input)
 		newlinkb->next = ((t_rooms *)(room_two->data))->linx;
 		((t_rooms *)(room_two->data))->linx = newlinkb;
 		ft_printf("%s-%s\n", newlinkb->link, newlinka->link);
-	}
-	else
-		error_exit(1);
+//	}
+//	else
+//		error_exit(1);
 }
 
 int				links(t_lemin *input, int k, char *line)

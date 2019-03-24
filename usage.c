@@ -6,7 +6,7 @@
 /*   By: sechang <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/15 19:31:04 by sechang           #+#    #+#             */
-/*   Updated: 2019/03/23 19:21:39 by sechang          ###   ########.fr       */
+/*   Updated: 2019/03/24 04:55:19 by sechang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,12 @@ void	print_usage(t_lemin *input, t_rooms *r)
 			else if (tmp == input->end)
 				ft_printf(" - E:");
 			ft_printf("Room name: %s Neighbors:", tmp->name);
+			ft_printf("%s:%d:%d:%d       , ", tmp->name, ((t_rooms *)
+				hash_lookup(tmp->name, input->hasht)->data)->dist, ((t_rooms *)hash_lookup(tmp->name, input->hasht)->data)->pathnbr,((t_rooms *)hash_lookup(tmp->name, input->hasht)->data)->occupied);
 			tmp2 = tmp->linx;
 			while (tmp2)
 			{
-				ft_printf("%s:%d:%d:%d, ", tmp2->link, ((t_rooms *)
+				ft_printf("%s:%d:%d:%d, \n", tmp2->link, ((t_rooms *)
 				hash_lookup(tmp2->link, input->hasht)->data)->dist, ((t_rooms *)hash_lookup(tmp2->link, input->hasht)->data)->pathnbr,				((t_rooms *)hash_lookup(tmp2->link, input->hasht)->data)->occupied);
 				tmp2 = tmp2->next;
 			}

@@ -6,37 +6,36 @@
 /*   By: sechang <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/02 13:34:01 by sechang           #+#    #+#             */
-/*   Updated: 2019/03/24 01:15:40 by sechang          ###   ########.fr       */
+/*   Updated: 2019/03/24 11:12:07 by sechang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
 /*
-t_links			*ft_lstreverse(t_links *l_tmp)
-{
-	t_links		*head;
-	t_links		*curr;
-	t_links		*prev;
-	t_links		*next;
+   t_links			*ft_lstreverse(t_links *l_tmp)
+   {
+   t_links		*head;
+   t_links		*curr;
+   t_links		*prev;
+   t_links		*next;
 
-	head = l_tmp;
-	curr = l_tmp;
-	prev = NULL;
-	next = l_tmp;
-	while (curr)
-	{
-		next = curr->next;
-		curr->next = prev;
-		prev = curr;
-		curr = next;
-	}
-	head = prev;
-	return (head);
+   head = l_tmp;
+   curr = l_tmp;
+   prev = NULL;
+   next = l_tmp;
+   while (curr)
+   {
+   next = curr->next;
+   curr->next = prev;
+   prev = curr;
+   curr = next;
+   }
+   head = prev;
+   return (head);
 
-}
-*/
-
+   }
+   */
 
 void			blockpath(t_lemin *input)
 {
@@ -60,9 +59,13 @@ static void		room_dist_reset(t_lemin *input)
 	while (r_tmp)
 	{
 		if (r_tmp != input->end && r_tmp != input->start && !r_tmp->pathnbr)
+		{
+			r_tmp->bfs = 0;
 			r_tmp->dist = 999999999;
+		}
 		r_tmp = r_tmp->next;
 	}
+	input->end->pathnbr = 0;
 }
 
 static void		room_retrace(t_rooms *r_tmp, int tmpdst, t_lemin *input)
@@ -71,27 +74,26 @@ static void		room_retrace(t_rooms *r_tmp, int tmpdst, t_lemin *input)
 	t_rooms		*tmp2;
 	int			p;
 
-
-
 	r_tmp->pathnbr = input->pathnbr;
 	r_tmp->bfs = 1;
 	tmp = r_tmp->linx;
 	while (tmp)
 	{
 		tmp2 = ((t_rooms *)hash_lookup(tmp->link, input->hasht)->data);
-		if (tmp2->dist == tmpdst - 1)
+		if (tmp2->dist == tmpdst - 1 && !tmp2->pathnbr)
 		{
 			if (tmp2 != input->end)
 				tmp2->bfs = 1;
 			tmp2->pathnbr = input->pathnbr;
 			if (tmp2 == input->end)
 			{
-				ft_printf("complete\n");
+				ft_printf(" complete\n");
 				ft_printf("Turns: %d\n", input->pathnbr);
 				ft_printf("Path Dist: %d\n", input->path_dist);
-				p = input->ants_in / input->pathnbr + input->path_dist;
+				ft_printf("calcing p: %d\n", p = input->ants_in / input->pathnbr + input->path_dist);
 				if (input->best_dist > p)
 				{
+					ft_printf("p, how many times?:%d\n", p);
 					input->best_dist = p;
 					input->paths_taken = input->pathnbr;
 				}
@@ -131,16 +133,19 @@ static void		room_dist2(t_rooms *r_tmp, int tmpdst, t_lemin *input)
 				//				getchar();
 				h_tmp->dist--;
 				input->pathnbr++;
-//				r_tmp->pathnbr = input->pathnbr;
+				ft_printf("pathnbr: %d\n", input->pathnbr);
+			//	if (input->pathnbr == 4)
+			//		testf(input);	
+				//				r_tmp->pathnbr = input->pathnbr;
 				input->path_dist = r_tmp->dist;
 				room_retrace(r_tmp, tmpdst, input);
 			}
 			input->state++;
-	//		r_tmp->female++;
+			//		r_tmp->female++;
 			h_tmp->dist = tmpdst + 1;
 		}
-	//	if (h_tmp->dist <= tmpdst)
-	//		r_tmp->male++;
+		//	if (h_tmp->dist <= tmpdst)
+		//		r_tmp->male++;
 		l_tmp = l_tmp->next;
 	}
 }
@@ -178,12 +183,7 @@ int				room_dist(t_lemin *input)
 
 
 
-int			testf(t_lemin *input)
-{
-//	print_usage(input, input->roomhead);
-//	exit(1);
-	return (1);
-}
+
 /*
    void		node_neighbors_nbr(t_lemin *input)
    {
@@ -278,3 +278,59 @@ int			testf(t_lemin *input)
    blockpath(input);
    return (1);
    }*/
+
+void		print_hasht(t_lemin *input)
+{
+	t_hasharr	*tmp;
+	t_hashlst	*tmp2;
+	t_links		*tmp3;
+	int			i;
+	int			k;
+
+	k = 1;
+	tmp = input->hasht;
+	while (k <= input->paths_taken)
+	{
+		i = 0;
+		while (i < HASHSIZE)
+		{
+			tmp2 = tmp->hashtab[i];
+			while (tmp2)
+			{
+				if (((t_rooms *)tmp2->data)->pathnbr == k)
+				{
+					if (((t_rooms *)tmp2->data)->dist == 1)
+						ft_printf(" -- ");
+					ft_printf("Name: %s, Dist: %d, bfs: %d, Pnbr: %d\n",
+							((t_rooms *)tmp2->data)->name,
+							((t_rooms *)tmp2->data)->dist,
+							((t_rooms *)tmp2->data)->bfs,
+							((t_rooms *)tmp2->data)->pathnbr);
+				}
+				tmp2 = tmp2->next;
+			}
+			i++;
+		}
+		k++;
+	}
+					ft_printf("Start: %s, Dist: %d, bfs: %d, Pnbr: %d\n",
+							input->start->name,
+							input->start->dist,
+							input->start->bfs,
+							input->start->pathnbr);
+					ft_printf("End: %s, Dist: %d, bfs: %d, Pnbr: %d\n",
+							input->end->name,
+							input->end->dist,
+							input->end->bfs,
+							input->end->pathnbr);
+//	exit(1);
+}
+
+int			testf(t_lemin *input)
+{
+	//	print_usage(input, input->roomhead);
+//	exit(1);
+	input->start->pathnbr = 999999999;
+//	print_hasht(input);
+	return (1);
+}

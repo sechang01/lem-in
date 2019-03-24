@@ -6,7 +6,7 @@
 /*   By: sechang <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/02 13:43:00 by sechang           #+#    #+#             */
-/*   Updated: 2019/03/23 21:04:30 by sechang          ###   ########.fr       */
+/*   Updated: 2019/03/24 05:46:22 by sechang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ static int	gogo_ants2(t_lemin *input)
 		else
 		{
 			//			input->paths_taken--;
-					ft_printf("\n\n\nCN: %s\n", close_tmp->name);
+			ft_printf("\n\n\nCN: %s - path: %d - dist: %d \n", close_tmp->name,	close_tmp->pathnbr, close_tmp->dist);
 	//		((t_rooms *)hash_lookup(close_tmp->name, input->hasht)->data)->stuck++;
 		}
 	}

@@ -6,7 +6,7 @@
 /*   By: sechang <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/02 16:01:56 by sechang           #+#    #+#             */
-/*   Updated: 2019/03/23 21:13:45 by sechang          ###   ########.fr       */
+/*   Updated: 2019/03/24 11:13:06 by sechang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,7 +157,6 @@ t_rooms		*closest_node2(t_lemin *input, t_rooms *curr)  // maybe key for first a
 		//		}
 		if (h_tmp == input->end)
 		{
-		//	exit(1);
 			close_end(input, curr);
 			input->antnum++;
 			input->closest = NULL;
@@ -204,6 +203,10 @@ t_rooms		*closest_node2(t_lemin *input, t_rooms *curr)  // maybe key for first a
 		}
 		i++;
 		l_tmp = l_tmp->next;
+	}
+	if (input->closest == curr)
+	{
+		ft_printf("--- culprit:%s - path:%d - dist:%d: ", h_tmp->name, h_tmp->pathnbr, h_tmp->dist);
 	}
 	return (input->closest);
 }
@@ -347,37 +350,7 @@ t_rooms		*closest_node(t_lemin *input, t_rooms *curr, int hstate, int tstate)
 		input->antnum++;
 	}
 
-
 	input->start->occupied = 1;
 	input->end->occupied = 0;
 	return (input->closest);
 }
-
-
-
-
-
-// Merge sort links by distance? So you instantly know which is the closest - necessary? links are pretty short
-// Lookup via hashtable
-/* Collision Node Search
- * p_me // Node about to move here bc shortest distance
- * if p_me = p_me, collision found
- * function to add distances of 1st and second choices of both nodes to see which is lower
- * Save Dist Gained
- * If fixing this collision results in a new collision
- * Compare Dist Gained vs new collision's Dist Gained. If Dist Gained is negative, restart?
- * 
- *
- *
- *
- *
- * Starting node - How to choose which nodes to send to? 
- * Currently we use a multiplier of (shortest path) to avoid long long paths
- * If 1 path, = path_dist + ants_in = answer
- * If 2 path, = (ants_re/2 + path_dist1) + (ants_re/2 + path_dist2) = answer
- * If n paths, = ants_re/n + path_dist1 ... to n = answer
- * Disregard Path if: ants_re path_distx > 
- *
- * If collision... && dist of collision < shortest_path
- *
- * */

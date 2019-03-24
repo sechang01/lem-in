@@ -6,7 +6,7 @@
 /*   By: sechang <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/02 13:33:55 by sechang           #+#    #+#             */
-/*   Updated: 2019/03/24 02:00:19 by sechang          ###   ########.fr       */
+/*   Updated: 2019/03/24 11:31:32 by sechang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,9 @@ void		split(t_lemin *input, t_rooms *tmp, t_links *lks, char **splitee)
 
 static void	commands_comments(t_lemin *input, char *line)
 {
-	if ((ft_strstr(line, "#Here is the number of lines required:")))
-		input->best_turn = ft_atoi(line + 38);
+	if (line[1] != '#')
+		if ((ft_strstr(line, "#Here is the number of lines required:")))
+			input->best_turn = ft_atoi(line + 38);
 	if (!(ft_strcmp(line, "##start")))
 		input->startend = 1;
 	else if (!(ft_strcmp(line, "##end")))
